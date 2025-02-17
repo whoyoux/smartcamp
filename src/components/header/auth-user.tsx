@@ -17,8 +17,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { signOut } from "@/lib/auth-client";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function AuthUser({ user }: { user: User }) {
+	const router = useRouter();
+	const signOutAndRedirect = async () => {
+		await signOut();
+		router.push("/");
+	};
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -33,10 +40,12 @@ export default function AuthUser({ user }: { user: User }) {
 				<DropdownMenuLabel>My Account</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
-					<DropdownMenuItem>
-						Dashboard
-						<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-					</DropdownMenuItem>
+					<Link href="/dashboard">
+						<DropdownMenuItem>
+							Dashboard
+							<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+						</DropdownMenuItem>
+					</Link>
 					<DropdownMenuItem disabled>
 						Billing
 						<DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
@@ -56,7 +65,7 @@ export default function AuthUser({ user }: { user: User }) {
 				<DropdownMenuItem disabled>Support</DropdownMenuItem>
 				<DropdownMenuItem disabled>API</DropdownMenuItem>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem onClick={async () => await signOut()}>
+				<DropdownMenuItem onClick={async () => await signOutAndRedirect()}>
 					Log out
 					<DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
 				</DropdownMenuItem>

@@ -7,7 +7,7 @@ import { useSession } from "@/lib/auth-client";
 import AuthUser from "./auth-user";
 
 function Header() {
-	const { isPending, data: session, error } = useSession();
+	const { isPending, data: session } = useSession();
 
 	return (
 		<header className="w-full max-w-screen-xl mx-auto px-2 py-6 flex justify-between items-center border-b mb-8">
