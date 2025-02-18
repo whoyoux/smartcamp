@@ -28,8 +28,18 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "./ui/textarea";
 
 const formSchema = z.object({
-	name: z.string().min(4).max(100),
-	description: z.string().max(255).optional(),
+	name: z
+		.string()
+		.min(4, {
+			message: "Name has to have at least 4 characters.",
+		})
+		.max(100, {
+			message: "Name has to have max 100 characters.",
+		}),
+	description: z
+		.string()
+		.max(255, { message: "Description has to have max 255 characters." })
+		.optional(),
 });
 
 export default function CreateNewCampain() {
