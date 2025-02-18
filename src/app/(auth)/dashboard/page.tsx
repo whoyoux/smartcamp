@@ -14,6 +14,9 @@ export default async function DashboardPage() {
 		where: {
 			userId: session.user.id,
 		},
+		orderBy: {
+			createdAt: "desc",
+		},
 	});
 	return (
 		<div className="flex flex-col gap-4">
