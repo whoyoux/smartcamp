@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import {
 	Dialog,
@@ -26,35 +25,32 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "./ui/textarea";
+import { createNewCampaignFormSchema } from "@/schemas/campaign-schema";
+import type { z } from "zod";
+import { createNewCampaignAction } from "@/actions/campaign-actions";
+import { useState } from "react";
+import { toast } from "sonner";
 
-const formSchema = z.object({
-	name: z
-		.string()
-		.min(4, {
-			message: "Name has to have at least 4 characters.",
-		})
-		.max(100, {
-			message: "Name has to have max 100 characters.",
-		}),
-	description: z
-		.string()
-		.max(255, { message: "Description has to have max 255 characters." })
-		.optional(),
-});
-
-export default function CreateNewCampain() {
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+export default function CreateNewCampaign() {
+	const [isPending, setIsPending] = useState(false);
+	const form = useForm<z.infer<typeof createNewCampaignFormSchema>>({
+		resolver: zodResolver(createNewCampaignFormSchema),
 		defaultValues: {
 			name: "",
 			description: "",
 		},
 	});
 
-	async function onSubmit(values: z.infer<typeof formSchema>) {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		console.log(values);
+	async function onSubmit(values: z.infer<typeof createNewCampaignFormSchema>) {
+		setIsPending(true);
+		const result = await createNewCampaignAction(values);
+		setIsPending(false);
+
+		if (result?.data?.success) {
+			toast.success(result.data.message);
+		}
+
+		form.reset();
 	}
 	return (
 		<Dialog>
@@ -65,9 +61,9 @@ export default function CreateNewCampain() {
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)}>
 						<DialogHeader>
-							<DialogTitle>Create a new campain</DialogTitle>
+							<DialogTitle>Create a new campaign</DialogTitle>
 							<DialogDescription>
-								Write informations about your new campain
+								Write informations about your new campaign
 							</DialogDescription>
 						</DialogHeader>
 						<div className="flex flex-col gap-4 py-4">
@@ -105,7 +101,9 @@ export default function CreateNewCampain() {
 							/>
 						</div>
 						<DialogFooter>
-							<Button type="submit">Save</Button>
+							<Button type="submit" loading={isPending}>
+								Save
+							</Button>
 						</DialogFooter>
 					</form>
 				</Form>
