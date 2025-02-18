@@ -76,7 +76,9 @@ export default function CreateNewCampain() {
 								name="name"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Campain name</FormLabel>
+										<FormLabel>
+											Campain name <span className="text-red-500">*</span>
+										</FormLabel>
 										<FormControl>
 											<Input placeholder="xxx" {...field} />
 										</FormControl>
