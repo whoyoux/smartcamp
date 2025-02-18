@@ -46,11 +46,13 @@ export default function CreateNewCampaign() {
 		const result = await createNewCampaignAction(values);
 		setIsPending(false);
 
-		if (result?.data?.success) {
-			toast.success(result.data.message);
+		if (result?.data && !result.data.success) {
+			toast.error(result.data.message);
+			return;
 		}
 
 		form.reset();
+		toast.success("Campaign created");
 	}
 	return (
 		<Dialog>
@@ -102,7 +104,7 @@ export default function CreateNewCampaign() {
 						</div>
 						<DialogFooter>
 							<Button type="submit" loading={isPending}>
-								Save
+								Create
 							</Button>
 						</DialogFooter>
 					</form>

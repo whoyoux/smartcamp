@@ -36,7 +36,8 @@ export default function RootLayout({
 					disableTransitionOnChange
 				>
 					<Header />
-					<div className="w-full max-w-screen-xl mx-auto px-2">{children}</div>
+					{/* <div className="w-full max-w-screen-xl mx-auto px-2">{children}</div> */}
+					<div>{children}</div>
 					<Toaster richColors />
 				</ThemeProvider>
 			</body>
