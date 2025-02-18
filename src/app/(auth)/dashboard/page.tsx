@@ -1,5 +1,6 @@
 import CampaignCard from "@/components/campaign-card";
 import CreateNewCampaign from "@/components/create-new-campaign";
+import { getAllCampaings } from "@/data-access/campaign-data";
 import getSession from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
@@ -11,14 +12,7 @@ export default async function DashboardPage() {
 		return notFound();
 	}
 
-	const campaigns = await prisma.campaign.findMany({
-		where: {
-			userId: session.user.id,
-		},
-		orderBy: {
-			createdAt: "desc",
-		},
-	});
+	const campaigns = await getAllCampaings({ userId: session.user.id });
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="w-full flex justify-between items-center">

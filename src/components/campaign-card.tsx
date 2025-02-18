@@ -1,6 +1,6 @@
 import type { Campaign } from "@prisma/client";
 
-export default function CampaignPage({ campaign }: { campaign: Campaign }) {
+export default function CampaignCard({ campaign }: { campaign: Campaign }) {
 	return (
 		<div className="w-full aspect-video cursor-pointer bg-card rounded-lg p-4 flex flex-col justify-between border">
 			<div>
