@@ -28,7 +28,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "./ui/textarea";
 
 const formSchema = z.object({
-	title: z.string().min(4).max(100),
+	name: z.string().min(4).max(100),
 	description: z.string().max(255).optional(),
 });
 
@@ -36,7 +36,7 @@ export default function CreateNewCampain() {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			title: "",
+			name: "",
 			description: "",
 		},
 	});
@@ -47,23 +47,23 @@ export default function CreateNewCampain() {
 		console.log(values);
 	}
 	return (
-		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)}>
-				<Dialog>
-					<DialogTrigger asChild>
-						<Button>Create a new campain</Button>
-					</DialogTrigger>
-					<DialogContent>
+		<Dialog>
+			<DialogTrigger asChild>
+				<Button>Create a new campain</Button>
+			</DialogTrigger>
+			<DialogContent>
+				<Form {...form}>
+					<form onSubmit={form.handleSubmit(onSubmit)}>
 						<DialogHeader>
 							<DialogTitle>Create a new campain</DialogTitle>
 							<DialogDescription>
 								Write informations about your new campain
 							</DialogDescription>
 						</DialogHeader>
-						<div className="flex flex-col gap-4">
+						<div className="flex flex-col gap-4 py-4">
 							<FormField
 								control={form.control}
-								name="title"
+								name="name"
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Campain name</FormLabel>
@@ -95,9 +95,9 @@ export default function CreateNewCampain() {
 						<DialogFooter>
 							<Button type="submit">Save</Button>
 						</DialogFooter>
-					</DialogContent>
-				</Dialog>
-			</form>
-		</Form>
+					</form>
+				</Form>
+			</DialogContent>
+		</Dialog>
 	);
 }
