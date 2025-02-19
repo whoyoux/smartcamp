@@ -13,3 +13,13 @@ export const getAllCampaings = async ({ userId }: { userId: string }) => {
 	});
 	return campaigns;
 };
+
+export const getCampaignById = async ({ campaignId, userId }: { campaignId: string, userId: string }) => {
+	const campaign = await prisma.campaign.findUnique({
+		where: {
+			id: campaignId,
+			userId,
+		},
+	});
+	return campaign;
+}
